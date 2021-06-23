@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import SearchBar from './components/SearchBar';
-import RelatedVideos from './components/relatedVideos'
+import RelatedVideos from './components/relatedVideos';
+import Comment from './components/comment';
 
 class App extends Component {
   constructor(props){
@@ -54,9 +55,9 @@ class App extends Component {
           <div className="row">
             <div className="text-center col-9">
               <h1>{this.state.videoTitle}</h1>
-              <iframe id="ytplayer" type="text/html" width="640" height="360"
+              <iframe title="title" id="ytplayer" type="text/html" width="640" height="360"
                 src={`https://www.youtube.com/embed/${this.state.videoId}?autoplay=1&origin=http://example.com`}
-                frameborder="0">
+                frameBorder="0">
               </iframe>
               <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
             </div>
@@ -64,6 +65,7 @@ class App extends Component {
               <RelatedVideos relatedVideos={this.state.relatedVideos} getVideoData={this.getVideoData}/>
             </div>
           </div>
+          <Comment />
         </div>
         :
         <h1 className="text-center">Do a search!</h1>

@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
-class Comment extends component{
+class Comment extends Component{
     constructor(props){
         super(props);
         this.state = {
-            comments = "",
+            comments: "",
         }
     }
 
@@ -16,15 +18,15 @@ class Comment extends component{
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.comments(this.state.comments)
+        alert("make API call")
     }
 
     render() { 
         return ( 
-            <div class="container">
+            <div className="container">
                 <Form>
-                    <div class="form-group" onSubmit={this.handleSubmit}> 
-                        <label for="comment">Comment:</label>>
+                    <div className="form-group" onSubmit={this.handleSubmit}> 
+                        <label for="comment">Comment:</label>
                         <Form.Control type="text" rows="5" id="comment" name="searchQuery" value={this.state.comments} onChange={this.handleChange}/>
                         <Button variant="primary" type="submit">Comment</Button>
                     </div>
