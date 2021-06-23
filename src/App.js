@@ -20,17 +20,27 @@ class App extends Component {
     let videoData = await this.getVideoData(id);
     let title = (videoData.items[0].snippet.title);
     let description = (videoData.items[0].snippet.description);
-    console.log(description);
+    let related = this.getRelatedVideos(id);
     this.setState({
       videoId: id,
       videoTitle: title,
-      videoDescription: description
+      videoDescription: description,
+      relatedVideos: related,
     })
   }
 
   getVideoData = async (id) => {
     let response = await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=${id}&key=AIzaSyBzQ39COnqubzZ5K4mbsI1qwIwhmN-0Rf8`);
     return(response.data)
+  }
+
+  getRelatedVideos = async (id) => {
+    let response = await axios.get (`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${id}&type=video&key=AIzaSyBzQ39COnqubzZ5K4mbsI1qwIwhmN-0Rf8`)
+    let relatedVideosData = response.data.items;
+    let relatedVideoIds = relatedVideosData.map((item) => {
+      return (item.id.videoId);
+    });
+    return relatedVideoIds
   }
 
   render(){
