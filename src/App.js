@@ -20,6 +20,7 @@ class App extends Component {
     let videoData = await this.getVideoData(id);
     let title = (videoData.items[0].snippet.title);
     let description = (videoData.items[0].snippet.description);
+    console.log(description);
     this.setState({
       videoId: id,
       videoTitle: title,
@@ -42,6 +43,8 @@ class App extends Component {
             src={`https://www.youtube.com/embed/${this.state.videoId}?autoplay=1&origin=http://example.com`}
             frameborder="0">
           </iframe>
+          <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
+          
         </div>
         :
         <h1 className="text-center">Do a search!</h1>
