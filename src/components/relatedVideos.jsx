@@ -16,7 +16,7 @@ class RelatedVideos extends Component{
     // }
 
     componentDidUpdate(){
-        if (this.state.videos != this.props.relatedVideos)
+        if (this.state.videos !== this.props.relatedVideos)
         this.setState({
             videos: this.props.relatedVideos
         })

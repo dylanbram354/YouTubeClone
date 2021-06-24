@@ -33,11 +33,11 @@ class App extends Component {
   getRelatedVideos = async (id) => {
     let response = await axios.get (`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${id}&type=video&part=snippet&key=${this.apiKey}`)
     let relatedVideosData = response.data.items;
-    // console.log(relatedVideosData);
+    console.log(relatedVideosData);
     let relatedVideos = relatedVideosData.map((video) => {
       return ({
         videoId: video.id.videoId,
-        videoTitle: video.snippet.title,
+        videoTitle: video.snippet.title, //not all videos are coming back with snippets
         thumbnailUrl: video.snippet.thumbnails.medium.url});
     });
     return relatedVideos
