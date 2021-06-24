@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class RelatedVideos extends Component{
     constructor(props){
         super(props);
         this.state = {
-            titles: null
+            ids: null,
+            titles: null,
+            thumbnailUrls: null
         }
     }
 
@@ -12,15 +15,21 @@ class RelatedVideos extends Component{
         this.getTitles();
     }
 
-    getTitles(){
-        let videoTitles = this.props.relatedVideos.map(async (id) => {
-            let videoData = await this.props.getVideoData(id);
-            let title = videoData.items[0].snippet.title;
-            return title
-        })
+    async getTitles(){
         let titles = [];
-        Promise.all(videoTitles).then((values)=>{console.log(values)}); //how get calues outside of console.log???
-
+        let thumbnailUrls = [];
+        for (let i=0; i< this.props.relatedVideos.length; i++){
+            let id = this.props.relatedVideos[i];
+            let data = await this.props.getVideoData(id);
+            titles.push(data.items[0].snippet.title)
+            thumbnailUrls.push(data.items[0].snippet.thumbnails.medium.url)
+        }
+        this.setState({
+            ids: this.props.relatedVideos,
+            titles: titles,
+            thumbnailUrls: thumbnailUrls
+        });
+        console.log(this.state)
     }
 
     render(){
