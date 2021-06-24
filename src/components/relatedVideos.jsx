@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import reactDom from 'react-dom';
 
 class RelatedVideos extends Component{
     constructor(props){
@@ -12,6 +13,10 @@ class RelatedVideos extends Component{
     }
 
     componentDidMount(){
+        this.getTitles();
+    }
+
+    componentDidUpdate(){
         this.getTitles();
     }
 
@@ -32,8 +37,25 @@ class RelatedVideos extends Component{
         console.log(this.state)
     }
 
+    createLinks() {
+        let links = [];
+        for (let i = 0 ; i < this.state.ids.length; i++) {
+            links.push(<React.Fragment><a href={`http://www.youtube.com/watch?v=${this.state.ids[i]}`} className="list-group-item">{this.state.titles[i]}</a>
+             <img src={this.state.thumbnailUrls[i]} /></React.Fragment>)
+        }
+        return links;
+    }
+
     render(){
-        return (<p>hi</p>)
+        return(
+            <React.Fragment>
+            {this.state.ids ?
+            <div className="list-group">
+                {this.createLinks()}
+            </div>
+            :''}
+            </React.Fragment>
+        )
     }
 }
 
