@@ -13,37 +13,34 @@ class App extends Component {
       videoDescription: null,
       relatedVideos: []
     }
-    this.apiKey = "AIzaSyANHPUkQOFPJK8OHhcOijUniVnUgfSLaUs";
+    this.apiKey = "AIzaSyBzQ39COnqubzZ5K4mbsI1qwIwhmN-0Rf8";
   }
 
   searchForVideos = async (searchQuery) => {
-    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchQuery}&type=video&key=${this.apiKey}`)
+    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchQuery}&type=video&part=snippet&key=${this.apiKey}`)
     let allVideos = response.data;
     let id = allVideos.items[0].id.videoId;
-    let videoData = await this.getVideoData(id);
-    let title = (videoData.items[0].snippet.title);
-    let description = (videoData.items[0].snippet.description);
-    let relatedIds = await this.getRelatedVideos(id);
+    let relatedVideos = await this.getRelatedVideos(id);
     this.setState({
       videoId: id,
-      videoTitle: title,
-      videoDescription: description,
-      relatedVideos: relatedIds,
+      videoTitle: allVideos.items[0].snippet.title,
+      videoDescription: allVideos.items[0].snippet.description,
+      relatedVideos: relatedVideos,
     })
-  }
-
-  getVideoData = async (id) => {
-    let response = await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=${id}&key=${this.apiKey}`);
-    return(response.data)
+    console.log(this.state.relatedVideos)
   }
 
   getRelatedVideos = async (id) => {
-    let response = await axios.get (`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${id}&type=video&key=${this.apiKey}`)
+    let response = await axios.get (`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${id}&type=video&part=snippet&key=${this.apiKey}`)
     let relatedVideosData = response.data.items;
-    let relatedVideoIds = relatedVideosData.map((item) => {
-      return (item.id.videoId);
+    // console.log(relatedVideosData);
+    let relatedVideos = relatedVideosData.map((video) => {
+      return ({
+        videoId: video.id.videoId,
+        videoTitle: video.snippet.title,
+        thumbnailUrl: video.snippet.thumbnails.medium.url});
     });
-    return relatedVideoIds
+    return relatedVideos
   }  
 
   render(){
@@ -62,7 +59,7 @@ class App extends Component {
               <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
             </div>
             <div className="col-3">
-              <RelatedVideos relatedVideos={this.state.relatedVideos} getVideoData={this.getVideoData}/>
+              <RelatedVideos relatedVideos={this.state.relatedVideos}/>
             </div>
           </div>
           <Comment />

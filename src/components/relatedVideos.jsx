@@ -1,47 +1,35 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import reactDom from 'react-dom';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 class RelatedVideos extends Component{
     constructor(props){
         super(props);
         this.state = {
-            ids: null,
-            titles: null,
-            thumbnailUrls: null
+            videos: props.relatedVideos //array of video objects with id, title, thumbnail URL
         }
     }
 
-    componentDidMount(){
-        this.getTitles();
-    }
+    // componentDidMount(){
+    //     this.setState({
+    //         videos: this.props.relatedVideos
+    //     })
+    // }
 
     componentDidUpdate(){
-        this.getTitles();
-    }
-
-    async getTitles(){
-        let titles = [];
-        let thumbnailUrls = [];
-        for (let i=0; i< this.props.relatedVideos.length; i++){
-            let id = this.props.relatedVideos[i];
-            let data = await this.props.getVideoData(id);
-            titles.push(data.items[0].snippet.title)
-            thumbnailUrls.push(data.items[0].snippet.thumbnails.medium.url)
-        }
+        if (this.state.videos != this.props.relatedVideos)
         this.setState({
-            ids: this.props.relatedVideos,
-            titles: titles,
-            thumbnailUrls: thumbnailUrls
-        });
-        console.log(this.state)
+            videos: this.props.relatedVideos
+        })
     }
 
     createLinks() {
         let links = [];
-        for (let i = 0 ; i < this.state.ids.length; i++) {
-            links.push(<React.Fragment><a href={`http://www.youtube.com/watch?v=${this.state.ids[i]}`} className="list-group-item">{this.state.titles[i]}</a>
-             <img src={this.state.thumbnailUrls[i]} /></React.Fragment>)
+        for (let i = 0 ; i < this.state.videos.length; i++) {
+            links.push(
+                <ListGroup.Item>
+                    <a href={`http://www.youtube.com/watch?v=${this.state.videos[i].videoId}`}>{this.state.videos[i].videoTitle}</a>
+                    <img src={this.state.videos[i].thumbnailUrl} />
+                </ListGroup.Item>)
         }
         return links;
     }
@@ -49,11 +37,9 @@ class RelatedVideos extends Component{
     render(){
         return(
             <React.Fragment>
-            {this.state.ids ?
-            <div className="list-group">
+            <ListGroup >
                 {this.createLinks()}
-            </div>
-            :''}
+            </ListGroup>
             </React.Fragment>
         )
     }
