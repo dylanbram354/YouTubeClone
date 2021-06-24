@@ -46,7 +46,7 @@ class App extends Component {
 
   render(){
     return (
-      <React.Fragment>
+      <div >
         <SearchBar searchForVideos={this.searchForVideos}/>
         {this.state.videoId ? 
         <div className="container">
@@ -58,17 +58,17 @@ class App extends Component {
                 frameBorder="0">
               </iframe>
               <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
+              <Comment />
             </div>
             <div className="col-3">
               <RelatedVideos relatedVideos={this.state.relatedVideos} apiKey={this.apiKey}/>
             </div>
           </div>
-          <Comment />
         </div>
         :
         <h1 className="text-center">Do a search!</h1>
         }
-      </React.Fragment>
+      </div>
         
     );
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Image from 'react-bootstrap/Image'
 
 const RelatedVideos = (props) => {
 
@@ -7,19 +8,19 @@ const RelatedVideos = (props) => {
 
         return props.relatedVideos.map((video) => {
             return (
-                <ListGroup.Item key={video.videoId} >
+                <ListGroup.Item key={video.videoId}>
                     <a href={`http://www.youtube.com/watch?v=${video.videoId}`}>{video.videoTitle}</a>
-                    <img src={video.thumbnailUrl} alt="video thumbnail"/>
+                    <Image src={video.thumbnailUrl} alt="video thumbnail" rounded style={{width: "100%", height: "100%"}}/>
                 </ListGroup.Item>
             );
         });
     }
         return (
-            <React.Fragment>
+            <div className="overflow-auto" style={{maxHeight: '50vh'}}>
                 <ListGroup >
                     {createLinks()}
                 </ListGroup>
-            </React.Fragment>
+            </div>
         );
 }
  
