@@ -13,35 +13,36 @@ class App extends Component {
       videoDescription: null,
       relatedVideos: []
     }
-    this.apiKey = "AIzaSyBzQ39COnqubzZ5K4mbsI1qwIwhmN-0Rf8";
+    this.apiKey = "AIzaSyBPTMnB_5DlD7dDkRcalos8LUNKYK6gR9k";
   }
 
   searchForVideos = async (searchQuery) => {
-    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchQuery}&type=video&part=snippet&key=${this.apiKey}`)
-    let allVideos = response.data;
-    let id = allVideos.items[0].id.videoId;
-    let relatedVideos = await this.getRelatedVideos(id);
-    this.setState({
-      videoId: id,
-      videoTitle: allVideos.items[0].snippet.title,
-      videoDescription: allVideos.items[0].snippet.description,
-      relatedVideos: relatedVideos,
+      let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchQuery}&type=video&part=snippet&key=${this.apiKey}`);
+      let allVideos = response.data;
+      this.getRelatedVideos({
+        videoId: allVideos.items[0].id.videoId,
+        videoTitle: allVideos.items[0].snippet.title,
+        videoDescription: allVideos.items[0].snippet.description,
     })
-    console.log(this.state.relatedVideos)
   }
 
-  getRelatedVideos = async (id) => {
-    let response = await axios.get (`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${id}&type=video&part=snippet&key=${this.apiKey}`)
-    let relatedVideosData = response.data.items;
-    console.log(relatedVideosData);
-    let relatedVideos = relatedVideosData.map((video) => {
-      return ({
-        videoId: video.id.videoId,
-        videoTitle: video.snippet.title, //not all videos are coming back with snippets
-        thumbnailUrl: video.snippet.thumbnails.medium.url});
-    });
-    return relatedVideos
-  }  
+  getRelatedVideos = async (videoData) => { 
+      let response = await axios.get (`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoData.videoId}&type=video&part=snippet&key=${this.apiKey}`);
+      let relatedVideosWithSnippet = response.data.items.filter(video => video.snippet);
+      let relatedVideosArray = relatedVideosWithSnippet.map((video) => {
+        return ({
+            videoId: video.id.videoId,
+            videoTitle: video.snippet.title, //not all videos are coming back with snippets?
+            thumbnailUrl: video.snippet.thumbnails.medium.url});
+        });
+        this.setState({
+          videoId: videoData.videoId,
+          videoTitle: videoData.videoTitle,
+          videoDescription: videoData.videoDescription,
+          relatedVideos: relatedVideosArray
+      })
+      console.log(this.state.relatedVideos)
+  }
 
   render(){
     return (
@@ -59,7 +60,7 @@ class App extends Component {
               <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
             </div>
             <div className="col-3">
-              <RelatedVideos relatedVideos={this.state.relatedVideos}/>
+              <RelatedVideos relatedVideos={this.state.relatedVideos} apiKey={this.apiKey}/>
             </div>
           </div>
           <Comment />
