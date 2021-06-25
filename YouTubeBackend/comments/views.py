@@ -9,7 +9,7 @@ from rest_framework import status
 class CommentList(APIView):
 
     def get(self, request, video_id):
-        comments = Comment.objects.all(videoId=video_id)
+        comments = Comment.objects.filter(videoId=video_id)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
