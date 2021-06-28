@@ -13,7 +13,7 @@ class App extends Component {
       videoDescription: null,
       relatedVideos: []
     }
-    this.apiKey = "AIzaSyAuX4xfHIXMvvgYVOm4BDv6O8RXiP_R5Cg";
+    this.apiKey = "AIzaSyDznGvuckoAKKYzT2v9Nr-dzqyGPbY1vbo";
   }
 
   setVideoDataById = async (id) => {
@@ -68,7 +68,7 @@ class App extends Component {
                 frameBorder="0">
               </iframe>
               <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
-              <Comments videoId={this.state.videoId} replyId={null}/>
+              <Comments videoId={this.state.videoId} replyId={null} key={this.state.videoId}/>
             </div>
             <div className="col-3">
               <RelatedVideos relatedVideos={this.state.relatedVideos} apiKey={this.apiKey} displayNewVideo={this.setVideoDataById}/>

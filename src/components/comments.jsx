@@ -19,7 +19,7 @@ class Comments extends Component{
         this.getInitialState();
     }
 
-    async getInitialState(){
+    getInitialState = async () => {
         let newState = await this.getComments();
         this.setState(newState)
     }
@@ -75,7 +75,7 @@ class Comments extends Component{
                                     <Button className='btn btn-danger' onClick={() => this.dislikeComment(parent.id)}>Dislike ({parent.dislikes})</Button>
                                 </div>
                                 <div className='col-4'>
-                                    <ReplyModal videoId={this.props.videoId} replyId={parent.id} refresh={this.getComments}/>
+                                    <ReplyModal videoId={this.props.videoId} replyId={parent.id} refresh={this.getInitialState}/>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@ class Comments extends Component{
     likeComment = async (commentId) => {
         try{
             await axios.get(`http://127.0.0.1:8000/comments/like/${commentId}`);
-            this.getComments()
+            this.getInitialState()
         }
         catch(err){
             alert(err)
@@ -101,7 +101,7 @@ class Comments extends Component{
     dislikeComment = async (commentId) => {
         try{
             await axios.get(`http://127.0.0.1:8000/comments/dislike/${commentId}`);
-            this.getComments()
+            this.getInitialState()
         }
         catch(err){
             alert(err)
@@ -111,8 +111,7 @@ class Comments extends Component{
     render(){
         return(
             <div className='mt-4'>
-                {this.props.videoId}
-                <CommentForm videoId={this.props.videoId} refresh={this.getComments}/>
+                <CommentForm videoId={this.props.videoId} refresh={this.getInitialState}/>
                 {this.state.parents ?
                 <div className='jumbotron'>
                     {this.generateCommentDisplay()}
