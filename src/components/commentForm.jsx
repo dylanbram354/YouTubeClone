@@ -11,7 +11,7 @@ class CommentForm extends Component{
             name: "",
         }
     }
-
+ 
     addComment = async () => {
         let comment = {
             name: this.state.name,
@@ -22,8 +22,14 @@ class CommentForm extends Component{
         try {
             await axios.post('http://127.0.0.1:8000/comments/post', comment);
             this.setState({
+                name: '',
+                comment: '',
             });
-            alert('Comment posted!')
+            alert('Comment posted!'); 
+            this.props.refresh();
+            if (this.props.hide){
+                this.props.hide()
+            }
         }
         catch (err) {
             alert(err);

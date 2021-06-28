@@ -11,6 +11,10 @@ class ReplyModal extends Component{
         }
     }
 
+    hideModal = () => {
+        this.setState({show: false})
+    }
+
    
 
     render(){
@@ -22,7 +26,7 @@ class ReplyModal extends Component{
                     <Modal.Title>Reply</Modal.Title>
                         </Modal.Header>
                             <Modal.Body>
-                                <CommentForm videoId={this.props.videoId} replyId={this.props.replyId}/>
+                                <CommentForm videoId={this.props.videoId} replyId={this.props.replyId} refresh={this.props.refresh} hide={this.hideModal}/>
                             </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => this.setState({show: false})}>

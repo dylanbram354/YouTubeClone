@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import SearchBar from './components/SearchBar';
 import RelatedVideos from './components/relatedVideos';
-import CommentSection from './components/commentSection';
+import Comments from './components/comments';
 
 class App extends Component {
   constructor(props){
@@ -13,7 +13,7 @@ class App extends Component {
       videoDescription: null,
       relatedVideos: []
     }
-    this.apiKey = "AIzaSyANHPUkQOFPJK8OHhcOijUniVnUgfSLaUs";
+    this.apiKey = "AIzaSyCqchfe4ckZuqVI7Y5HpgWGA_VwG-jQHGU";
   }
 
   setVideoDataById = async (id) => {
@@ -68,7 +68,7 @@ class App extends Component {
                 frameBorder="0">
               </iframe>
               <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
-              <CommentSection videoId={this.state.videoId}/>
+              <Comments videoId={this.state.videoId} replyId={null}/>
             </div>
             <div className="col-3">
               <RelatedVideos relatedVideos={this.state.relatedVideos} apiKey={this.apiKey} displayNewVideo={this.setVideoDataById}/>
