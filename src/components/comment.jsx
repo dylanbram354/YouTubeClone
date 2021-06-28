@@ -16,7 +16,6 @@ class Comment extends Component{
         let comment = {
             name: this.state.name,
             comment: this.state.comment,
-            date: new Date(),
             videoId: this.props.videoId,
         }
         console.log(comment);
@@ -48,11 +47,11 @@ class Comment extends Component{
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group  controlId="name">  
                         <Form.Label for="name">Name:</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Name" onChange={this.handleChange} value={this.state.name}/>
+                        <Form.Control type="text" placeholder="Enter Name" name="name" onChange={this.handleChange} value={this.state.name}/>
                     </Form.Group>
                     <Form.Group controlId="comment">
                         <Form.Label for="comment">Comment</Form.Label>
-                        <Form.Control type="text" placeholder="Comment..." value={this.state.comment} onChange={this.handleChange}/>
+                        <Form.Control type="text" placeholder="Comment..." name="comment" value={this.state.comment} onChange={this.handleChange}/>
                     </Form.Group>             
                         <Button variant="primary" type="submit">Add Comment</Button>
                 </Form>
