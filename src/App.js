@@ -68,7 +68,7 @@ class App extends Component {
                 frameBorder="0">
               </iframe>
               <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
-              <Comment />
+              <Comment videoId={this.state.videoId}/>
             </div>
             <div className="col-3">
               <RelatedVideos relatedVideos={this.state.relatedVideos} apiKey={this.apiKey} displayNewVideo={this.setVideoDataById}/>
