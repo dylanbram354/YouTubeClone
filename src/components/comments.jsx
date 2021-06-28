@@ -16,6 +16,10 @@ class Comments extends Component{
     }
 
     async componentDidMount(){
+        this.getInitialState();
+    }
+
+    async getInitialState(){
         let newState = await this.getComments();
         this.setState(newState)
     }
@@ -35,10 +39,6 @@ class Comments extends Component{
                 replies.push(comment);
             }
         }
-        // this.setState({
-        //     parents: parentComments, 
-        //     replies: replies
-        // })
         let newState = {
             parents: parentComments, 
             replies: replies
@@ -62,7 +62,7 @@ class Comments extends Component{
                 )
             })
             return(
-            <React.Fragment>
+            <div>
                 <h3 className='text-left'>{parent.name} says...</h3>
                     <Alert variant='dark'>
                         <Alert variant='light' >{parent.comment}</Alert>
@@ -82,7 +82,7 @@ class Comments extends Component{
                         <h3>Replies</h3>
                         {repliesDisplay}
                     </Alert>
-            </React.Fragment>
+            </div>
             )
         })
         return display
@@ -111,10 +111,12 @@ class Comments extends Component{
     render(){
         return(
             <div className='mt-4'>
-                <p>{this.props.videoId}</p>
+                {this.props.videoId}
                 <CommentForm videoId={this.props.videoId} refresh={this.getComments}/>
                 {this.state.parents ?
-                this.generateCommentDisplay()
+                <div className='jumbotron'>
+                    {this.generateCommentDisplay()}
+                </div>
                 :
                 <p>loading comments</p>}
             </div>

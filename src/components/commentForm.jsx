@@ -48,7 +48,8 @@ class CommentForm extends Component{
 
     render() { 
         return ( 
-            <div className="container">
+            <div className="container jumbotron">
+                <h2>Comment</h2>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group  controlId="name">
                         <Form.Control className='w-50' type="text" placeholder="Enter your name" name='name' onChange={this.handleChange} value={this.state.name}/>
