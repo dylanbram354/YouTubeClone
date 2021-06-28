@@ -16,6 +16,20 @@ class App extends Component {
     this.apiKey = "AIzaSyBPTMnB_5DlD7dDkRcalos8LUNKYK6gR9k";
   }
 
+  setVideoDataById = async (id) => {
+    let response = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${id}&part=snippet&key=${this.apiKey}`);
+    let title = response.data.items[0].snippet.title;
+    let description = response.data.items[0].snippet.description;
+    let relatedVideosArray = await this.getRelatedVideos(id)
+    let newState = {
+      videoId: id,
+      videoTitle: title,
+      videoDescription: description,
+      relatedVideos: relatedVideosArray
+    }
+    this.setState(newState);
+  }
+
   searchForVideos = async (searchQuery) => {
       let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchQuery}&type=video&part=snippet&key=${this.apiKey}`);
       let allVideos = response.data;
@@ -57,7 +71,7 @@ class App extends Component {
               <Comment />
             </div>
             <div className="col-3">
-              <RelatedVideos relatedVideos={this.state.relatedVideos} apiKey={this.apiKey}/>
+              <RelatedVideos relatedVideos={this.state.relatedVideos} apiKey={this.apiKey} displayNewVideo={this.setVideoDataById}/>
             </div>
           </div>
         </div>
