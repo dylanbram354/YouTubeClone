@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
-class Comment extends Component{
+class CommentForm extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -17,15 +17,16 @@ class Comment extends Component{
             name: this.state.name,
             comment: this.state.comment,
             videoId: this.props.videoId,
+            replyToId: this.props.replyId
         }
-        console.log(comment);
         try {
             await axios.post('http://127.0.0.1:8000/comments/post', comment);
             this.setState({
             });
+            alert('Comment posted!')
         }
         catch (err) {
-            console.log(err);
+            alert(err);
         }
     }
 
@@ -37,7 +38,6 @@ class Comment extends Component{
 
     handleSubmit = (event) => {
         event.preventDefault();
-        alert("make API call")
         this.addComment();
     }
 
@@ -45,19 +45,17 @@ class Comment extends Component{
         return ( 
             <div className="container">
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Group  controlId="name">  
-                        <Form.Label for="name">Name:</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Name" name="name" onChange={this.handleChange} value={this.state.name}/>
-                    </Form.Group>
+                    <Form.Group  controlId="name">
+                        <Form.Control className='w-50' type="text" placeholder="Enter your name" name='name' onChange={this.handleChange} value={this.state.name}/>
+                    </Form.Group>  
                     <Form.Group controlId="comment">
-                        <Form.Label for="comment">Comment</Form.Label>
-                        <Form.Control type="text" placeholder="Comment..." name="comment" value={this.state.comment} onChange={this.handleChange}/>
-                    </Form.Group>             
-                        <Button variant="primary" type="submit">Add Comment</Button>
+                        <Form.Control type="text" placeholder="Leave a comment..." name='comment' value={this.state.comment} onChange={this.handleChange}/>
+                    </Form.Group>           
+                    <Button variant="primary" type="submit">Add Comment</Button>
                 </Form>
             </div>
          );
     }
 }
 
-export default Comment;
+export default CommentForm;
