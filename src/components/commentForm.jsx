@@ -25,7 +25,6 @@ class CommentForm extends Component{
                 name: '',
                 comment: '',
             });
-            alert('Comment posted!'); 
             this.props.refresh();
             if (this.props.hide){
                 this.props.hide()

@@ -11,29 +11,18 @@ class Comments extends Component{
         super(props);
         this.state = {
             parents: null,
-            replies: null
+            replies: null,
         }
     }
 
     async componentDidMount(){
-        let parentsAndReplies = await this.getComments(this.props.videoId);
-        this.setState({
-            parents: parentsAndReplies[0], //array of comment objects
-            replies: parentsAndReplies[1] //array of comment objects
-        })
-    }
-
-    async refreshComments(){
-        let parentsAndReplies = await this.getComments(this.props.videoId);
-        this.setState({
-            parents: parentsAndReplies[0], //array of comment objects
-            replies: parentsAndReplies[1] //array of comment objects
-        })
+        let newState = await this.getComments();
+        this.setState(newState)
     }
 
 
-    getComments = async (id) => {
-        let response = await axios.get(`http://127.0.0.1:8000/comments/get/${id}`);
+    getComments = async () => {
+        let response = await axios.get(`http://127.0.0.1:8000/comments/get/${this.props.videoId}`);
         let allComments = response.data;
         let parentComments = [];
         let replies = [];
@@ -46,7 +35,15 @@ class Comments extends Component{
                 replies.push(comment);
             }
         }
-        return [parentComments, replies]
+        // this.setState({
+        //     parents: parentComments, 
+        //     replies: replies
+        // })
+        let newState = {
+            parents: parentComments, 
+            replies: replies
+        }
+        return newState
     }
 
     generateCommentDisplay = () => {
@@ -78,7 +75,7 @@ class Comments extends Component{
                                     <Button className='btn btn-danger' onClick={() => this.dislikeComment(parent.id)}>Dislike ({parent.dislikes})</Button>
                                 </div>
                                 <div className='col-4'>
-                                    <ReplyModal videoId={this.props.videoId} replyId={parent.id} refresh={this.refreshComments.bind(this)}/>
+                                    <ReplyModal videoId={this.props.videoId} replyId={parent.id} refresh={this.getComments}/>
                                 </div>
                             </div>
                         </div>
@@ -93,8 +90,8 @@ class Comments extends Component{
 
     likeComment = async (commentId) => {
         try{
-            let response = await axios.get(`http://127.0.0.1:8000/comments/like/${commentId}`);
-            this.refreshComments()
+            await axios.get(`http://127.0.0.1:8000/comments/like/${commentId}`);
+            this.getComments()
         }
         catch(err){
             alert(err)
@@ -103,8 +100,8 @@ class Comments extends Component{
 
     dislikeComment = async (commentId) => {
         try{
-            let response = await axios.get(`http://127.0.0.1:8000/comments/dislike/${commentId}`);
-            this.refreshComments()
+            await axios.get(`http://127.0.0.1:8000/comments/dislike/${commentId}`);
+            this.getComments()
         }
         catch(err){
             alert(err)
@@ -114,7 +111,8 @@ class Comments extends Component{
     render(){
         return(
             <div className='mt-4'>
-                <CommentForm videoId={this.props.videoId} refresh={this.refreshComments.bind(this)}/>
+                <p>{this.props.videoId}</p>
+                <CommentForm videoId={this.props.videoId} refresh={this.getComments}/>
                 {this.state.parents ?
                 this.generateCommentDisplay()
                 :

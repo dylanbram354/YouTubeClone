@@ -13,7 +13,7 @@ class App extends Component {
       videoDescription: null,
       relatedVideos: []
     }
-    this.apiKey = "AIzaSyCqchfe4ckZuqVI7Y5HpgWGA_VwG-jQHGU";
+    this.apiKey = "AIzaSyAuX4xfHIXMvvgYVOm4BDv6O8RXiP_R5Cg";
   }
 
   setVideoDataById = async (id) => {
