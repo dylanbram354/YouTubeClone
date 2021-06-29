@@ -17,8 +17,8 @@ const RelatedVideos = (props) => {
         });
     }
         return (
-            <div className="overflow-auto" style={{maxHeight: '50vh'}}>
-                <ListGroup >
+            <div>
+                <ListGroup className="overflow-auto small text-center" style={{maxHeight: '70vh'}}>
                     {createLinks()}
                 </ListGroup>
             </div>

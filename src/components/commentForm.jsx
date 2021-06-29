@@ -48,11 +48,11 @@ class CommentForm extends Component{
 
     render() { 
         return ( 
-            <div className="container jumbotron">
-                <h2>Comment</h2>
+            <div className="container jumbotron small" style={{maxHeight: '30vh'}}>
+                <h3>Comment</h3>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group  controlId="name">
-                        <Form.Control className='w-50' type="text" placeholder="Enter your name" name='name' onChange={this.handleChange} value={this.state.name}/>
+                        <Form.Control type="text" placeholder="Enter your name" name='name' onChange={this.handleChange} value={this.state.name}/>
                     </Form.Group>  
                     <Form.Group controlId="comment">
                         <Form.Control type="text" placeholder="Leave a comment..." name='comment' value={this.state.comment} onChange={this.handleChange}/>

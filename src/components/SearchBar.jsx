@@ -27,7 +27,7 @@ class SearchBar extends Component {
                 <Form className="w-75 text-center" onSubmit={this.handleSubmit}> 
                     <Form.Group controlId="searchBar" >
                         <Form.Label></Form.Label>
-                        <Form.Control type="text" placeholder="Search for videos" name="searchQuery" value={this.state.searchQuery} onChange={this.handleChange}/>
+                        <Form.Control type="text" placeholder="Search for videos on YouTube" name="searchQuery" value={this.state.searchQuery} onChange={this.handleChange}/>
                     </Form.Group>
                     <Button variant="primary" type="submit">Search</Button>
                 </Form>

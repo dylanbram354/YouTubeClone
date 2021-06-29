@@ -14,13 +14,11 @@ class ReplyModal extends Component{
     hideModal = () => {
         this.setState({show: false})
     }
-
    
-
     render(){
         return(
             <React.Fragment>
-                <Button className='btn btn-primary' onClick={() => {this.setState({show: true})}}>Reply</Button>
+                <Button className='btn btn-primary btn-sm' onClick={() => {this.setState({show: true})}}>Reply</Button>
                 <Modal show={this.state.show} onHide={() => this.setState({show: false})} backdrop="static">
                 <Modal.Header closeButton>
                     <Modal.Title>Reply</Modal.Title>

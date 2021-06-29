@@ -3,6 +3,7 @@ import axios from 'axios';
 import SearchBar from './components/SearchBar';
 import RelatedVideos from './components/relatedVideos';
 import Comments from './components/comments';
+import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed';
 
 class App extends Component {
   constructor(props){
@@ -13,7 +14,7 @@ class App extends Component {
       videoDescription: null,
       relatedVideos: []
     }
-    this.apiKey = "AIzaSyDznGvuckoAKKYzT2v9Nr-dzqyGPbY1vbo";
+    this.apiKey = "AIzaSyAhxIvbf-R4SX9JTdNUib-WGGRAmU-PLrk";
   }
 
   setVideoDataById = async (id) => {
@@ -42,7 +43,7 @@ class App extends Component {
       let relatedVideosArray = relatedVideosWithSnippet.map((video) => {
         return ({
             videoId: video.id.videoId,
-            videoTitle: video.snippet.title, //not all videos are coming back with snippets?
+            videoTitle: video.snippet.title, 
             thumbnailUrl: video.snippet.thumbnails.medium.url});
         });
       return relatedVideosArray
@@ -50,22 +51,25 @@ class App extends Component {
 
   render(){
     return (
-      <div >
+      <div>
         <SearchBar searchForVideos={this.searchForVideos}/>
         {this.state.videoId ? 
-        <div className="container">
+        <div className="container mt-2">
           <div className="row">
-            <div className="text-center col-9">
+            <div className="text-center col-12 col-md-9">
               <h1>{this.state.videoTitle}</h1>
-              <iframe title="title" id="ytplayer" type="text/html" width="640" height="360"
-                src={`https://www.youtube.com/embed/${this.state.videoId}?autoplay=1&origin=http://example.com`}
-                frameBorder="0">
-              </iframe>
-              <p style={{whiteSpace: 'pre-line'}}>{this.state.videoDescription}</p>
-              <Comments videoId={this.state.videoId} replyId={null} key={this.state.videoId}/>
+              <ResponsiveEmbed aspectRatio='16by9'>
+                <embed title="title" id="ytplayer" type="text/html" 
+                src={`https://www.youtube.com/embed/${this.state.videoId}?autoplay=1&origin=http://example.com`}/>
+              </ResponsiveEmbed>
+              <p className="overflow-auto small" style={{whiteSpace: 'pre-line', maxHeight: '20vh'}}>{this.state.videoDescription}</p>
             </div>
-            <div className="col-3">
+            <div className="col-4 col-md-3">
+              <h2 className='text-center'>Related Videos</h2>
               <RelatedVideos relatedVideos={this.state.relatedVideos} apiKey={this.apiKey} displayNewVideo={this.setVideoDataById}/>
+            </div>
+            <div className='col-8 col-md-9'>
+              <Comments videoId={this.state.videoId} replyId={null} key={this.state.videoId}/>
             </div>
           </div>
         </div>

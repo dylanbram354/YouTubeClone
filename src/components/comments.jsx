@@ -3,7 +3,8 @@ import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import ReplyModal from './replyModal';
-import CommentForm from './commentForm'
+import CommentForm from './commentForm';
+import Collapse from 'react-bootstrap/Collapse'
 
 
 class Comments extends Component{
@@ -13,6 +14,7 @@ class Comments extends Component{
             parents: null,
             replies: null,
         }
+        this.open = false
     }
 
     async componentDidMount(){
@@ -68,13 +70,13 @@ class Comments extends Component{
                         <Alert variant='light' >{parent.comment}</Alert>
                         <div className='container m-2'>
                             <div className='row'>
-                                <div className='col-4'>
-                                    <Button className='btn btn-success' onClick={() => this.likeComment(parent.id)}>Like ({parent.likes})</Button>
+                                <div className='col-6 col-sm-4'>
+                                    <Button className='btn btn-success btn-sm' onClick={() => this.likeComment(parent.id)}>Like ({parent.likes})</Button>
                                 </div>
-                                <div className='col-4'>
-                                    <Button className='btn btn-danger' onClick={() => this.dislikeComment(parent.id)}>Dislike ({parent.dislikes})</Button>
+                                <div className='col-6 col-sm-4'>
+                                    <Button className='btn btn-danger btn-sm' onClick={() => this.dislikeComment(parent.id)}>Dislike ({parent.dislikes})</Button>
                                 </div>
-                                <div className='col-4'>
+                                <div className='col-sm-4 text-center mt-2 mt-sm-0'>
                                     <ReplyModal videoId={this.props.videoId} replyId={parent.id} refresh={this.getInitialState}/>
                                 </div>
                             </div>
@@ -113,9 +115,11 @@ class Comments extends Component{
             <div className='mt-4'>
                 <CommentForm videoId={this.props.videoId} refresh={this.getInitialState}/>
                 {this.state.parents ?
-                <div className='jumbotron'>
-                    {this.generateCommentDisplay()}
-                </div>
+                <React.Fragment>
+                    <div className="jumbotron overflow-auto text-md-sm" style={{maxHeight: '50vh'}}>
+                        {this.generateCommentDisplay()}
+                    </div>
+                </React.Fragment>
                 :
                 <p>loading comments</p>}
             </div>
