@@ -26,7 +26,7 @@ class SearchBar extends Component {
             <div className="d-flex justify-content-center">
                 <Form className="w-75 text-center" onSubmit={this.handleSubmit}> 
                     <Form.Group controlId="searchBar" >
-                        <Form.Label>Search</Form.Label>
+                        <Form.Label></Form.Label>
                         <Form.Control type="text" placeholder="Search for videos" name="searchQuery" value={this.state.searchQuery} onChange={this.handleChange}/>
                     </Form.Group>
                     <Button variant="primary" type="submit">Search</Button>
